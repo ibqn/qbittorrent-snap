@@ -1,21 +1,24 @@
-name: qbittorrent-arnatious # you probably want to 'snapcraft register <name>'
+name: qbittorrent-ibqn # you probably want to 'snapcraft register <name>'
 base: core18 # the base snap is the execution environment for this snap
 adopt-info: qbittorrent
 grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: strict # use 'strict' once you have the right plugs and slots
+confinement: devmode # use 'strict' once you have the right plugs and slots
 
 parts:
   qbittorrent:
     # See 'snapcraft plugins'
     plugin: cmake
     configflags:
+      - -GNinja
       - "-DCMAKE_INSTALL_PREFIX=/usr"
+      - "-DCMAKE_BUILD_TYPE=Release"
     source: https://github.com/qbittorrent/qBittorrent.git
-    source-branch: v4_2_x
+    source-branch: v4_3_x
     parse-info:
       - usr/share/metainfo/org.qbittorrent.qBittorrent.appdata.xml
     build-packages:
-      - libtool
+      - build-essential
+      - ninja-build
       - git
       - zlib1g-dev
       - libboost-dev
@@ -25,7 +28,6 @@ parts:
       - libssl-dev
       - libgeoip-dev
       - pkg-config
-      - libglvnd-dev
     build-snaps:
       - cmake
       - kde-frameworks-5-core18
@@ -42,6 +44,9 @@ parts:
 
   libtorrent:
     plugin: cmake
+    configflags:
+      - "-DCMAKE_BUILD_TYPE=Release"
+      - "-DCMAKE_INSTALL_PREFIX=/usr"
     build-packages:
       - build-essential
       - libboost-dev
@@ -57,10 +62,10 @@ parts:
       - libboost-system1.65.1
 
   cleanup:
-    after:  # Make this part run last; list all your other parts here
+    after: # Make this part run last; list all your other parts here
       - qbittorrent
     plugin: nil
-    build-snaps:  # List all content-snaps and base snaps you're using here
+    build-snaps: # List all content-snaps and base snaps you're using here
       - core18
       - cmake
       - kde-frameworks-5-core18-sdk
