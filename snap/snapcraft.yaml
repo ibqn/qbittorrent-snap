@@ -9,14 +9,14 @@ parts:
     # See 'snapcraft plugins'
     plugin: cmake
     configflags:
-      - -GNinja
-      - "-DCMAKE_INSTALL_PREFIX=/usr"
       - "-DCMAKE_BUILD_TYPE=Release"
+      - "-DCMAKE_INSTALL_PREFIX=/usr"
     source: https://github.com/qbittorrent/qBittorrent.git
     source-branch: v4_3_x
     parse-info:
       - usr/share/metainfo/org.qbittorrent.qBittorrent.appdata.xml
     build-packages:
+      - libtool
       - build-essential
       - ninja-build
       - git
@@ -28,6 +28,7 @@ parts:
       - libssl-dev
       - libgeoip-dev
       - pkg-config
+      - libglvnd-dev
     build-snaps:
       - cmake
       - kde-frameworks-5-core18
@@ -70,11 +71,11 @@ parts:
       - cmake
       - kde-frameworks-5-core18-sdk
       - kde-frameworks-5-core18
-    override-prime: |
-      set -eux
-      for snap in "core18" "cmake" "kde-frameworks-5-core18-sdk" "kde-frameworks-5-core18"; do  # List all content-snaps and base snaps you're using here
-          cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
-      done
+    # override-prime: |
+    #   set -eux
+    #   for snap in "core18" "cmake" "kde-frameworks-5-core18-sdk" "kde-frameworks-5-core18"; do  # List all content-snaps and base snaps you're using here
+    #       cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
+    #   done
 
 apps:
   qbittorrent:
