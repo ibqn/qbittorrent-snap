@@ -71,11 +71,11 @@ parts:
       - cmake
       - kde-frameworks-5-core18-sdk
       - kde-frameworks-5-core18
-    # override-prime: |
-    #   set -eux
-    #   for snap in "core18" "cmake" "kde-frameworks-5-core18-sdk" "kde-frameworks-5-core18"; do  # List all content-snaps and base snaps you're using here
-    #       cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
-    #   done
+    override-prime: |
+      set -eux
+      for snap in "core18" "cmake" "kde-frameworks-5-core18-sdk" "kde-frameworks-5-core18"; do  # List all content-snaps and base snaps you're using here
+        cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
+      done
 
 apps:
   qbittorrent:
